@@ -1,0 +1,28 @@
+.jos {
+    background: linear-gradient(to bottom, transparent, rgb(166, 187, 141, 0.8), rgb(60, 98, 85, 2)),
+        url('');
+    padding-bottom: 100px;
+    padding-top: 200px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    height: 400px;
+}
+
+
+.coloane {
+    padding-top: 20px;
+}
+
+.legal {
+    height: 70px;
+    width: 50px;
+    padding-top: 20px;
+    padding-bottom: 20;
+}
+
+
+.padd100 {
+
+    top: 100px;
+}

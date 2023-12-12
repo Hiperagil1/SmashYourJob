@@ -12,23 +12,52 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
-import { useAuth } from "./AuthProvider";
-
-const pages = ["Jobs", "CV", "Courses", "Matches"];
-const settings = ["Logout"];
+import { useAuth } from "../components/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 function ResponsiveAppBar() {
+  const { username } = useAuth();
+
+  const pages = ["Home", "Jobs", "CV", "Courses", "Matches"];
+  const settings = ["Logout", "User: " + username];
+
   const { logout } = useAuth();
+  const navigate = useNavigate();
 
   const settingsMethods: { [key: string]: () => void } = {
     Logout: () => {
       logout();
+      navigate("/");
+    },
+  };
+
+  const pagesMethods: { [key: string]: () => void } = {
+    Jobs: () => {
+      navigate("/jobs");
+    },
+    CV: () => {
+      navigate("/cv");
+    },
+    Courses: () => {
+      navigate("/courses");
+    },
+    Matches: () => {
+      navigate("/matches");
+    },
+    Home: () => {
+      navigate("/angajatHome");
     },
   };
 
   const handleSettingsClick = (settingsName: string) => {
     if (settingsMethods[settingsName]) {
       settingsMethods[settingsName]();
+    }
+  };
+
+  const handelPagesClick = (pagesName: string) => {
+    if (pagesMethods[pagesName]) {
+      pagesMethods[pagesName]();
     }
   };
 
@@ -105,7 +134,7 @@ function ResponsiveAppBar() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                <MenuItem key={page} onClick={() => handelPagesClick(page)}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
@@ -132,7 +161,7 @@ function ResponsiveAppBar() {
             {pages.map((page) => (
               <Button
                 key={page}
-                onClick={handleCloseNavMenu}
+                onClick={() => handelPagesClick(page)}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
                 {page}

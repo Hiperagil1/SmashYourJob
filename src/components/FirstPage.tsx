@@ -1,16 +1,18 @@
 import React from "react";
 import LogIn from "./LogIn";
-import AngajatFirstPage from "./AngajatFirstPage";
+import AngajatorFirstPage from "../AngajatorComponents/AngajatorFirstPage";
+import AngajatFirstPage from "../AngajatComponents/AngajatFirstPage";
 import { useAuth } from "./AuthProvider";
 
 function FirstPage() {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, accountType } = useAuth();
   const { logout } = useAuth();
 
   return (
     <div>
       {!isLoggedIn && <LogIn />}
-      {isLoggedIn && <AngajatFirstPage />}
+      {isLoggedIn && accountType && <AngajatorFirstPage />}
+      {isLoggedIn && !accountType && <AngajatFirstPage />}
     </div>
   );
 }

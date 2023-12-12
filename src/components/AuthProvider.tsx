@@ -10,6 +10,8 @@ export const useAuth = () => {
   return useContext(AuthContext);
 };
 
+// ... (restul codului rămâne neschimbat)
+
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
     // Verificăm dacă există o valoare stocată pentru isLoggedIn în sessionStorage
@@ -18,29 +20,44 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     return storedLoggedIn ? JSON.parse(storedLoggedIn) : false;
   });
 
-  const login = () => {
+  const [username, setUsername] = useState(() => {
+    const storedUsername = sessionStorage.getItem("username");
+    return storedUsername ? storedUsername : "";
+  });
+
+  const [accountType, setAccountType] = useState(() => {
+    const storedAccountType = sessionStorage.getItem("accountType");
+    return storedAccountType ? JSON.parse(storedAccountType) : false;
+  });
+
+  const login = (newUsername: string, accountType: boolean) => {
     setIsLoggedIn(true);
-    // Salvăm starea autentificării în sessionStorage când utilizatorul se autentifică
+    setUsername(newUsername);
+    setAccountType(accountType);
+    // Salvăm starea autentificării și username-ul în sessionStorage când utilizatorul se autentifică
     sessionStorage.setItem("isLoggedIn", JSON.stringify(true));
+    sessionStorage.setItem("username", newUsername);
+    sessionStorage.setItem("accountType", JSON.stringify(accountType));
   };
 
   const logout = () => {
     setIsLoggedIn(false);
-    // Ștergem starea autentificării din sessionStorage când utilizatorul se deconectează
+    setUsername("");
+    // Ștergem starea autentificării și username-ul din sessionStorage când utilizatorul se deconectează
     sessionStorage.removeItem("isLoggedIn");
+    sessionStorage.removeItem("username");
+    sessionStorage.removeItem("accountType");
   };
 
-  const closeLogIn = () => {
-    setIsLoggedIn(true);
-  };
-  const openLogIn = () => {
-    setIsLoggedIn(false);
+  const contextValue = {
+    accountType,
+    isLoggedIn,
+    username,
+    login,
+    logout,
   };
 
-  // Restul codului rămâne neschimbat
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
   );
 };

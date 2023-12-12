@@ -5,7 +5,6 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-//import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -13,37 +12,64 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link } from "react-router-dom";
-/*
-function Copyright(props: any) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-*/
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+
+import { useMutation } from "convex/react";
+import { api } from "../../convex/_generated/api";
+import { useNavigate } from "react-router-dom";
+
+import BasicSelect from "./Select";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 export default function SignUp() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const [accountType, setAccountType] = React.useState("Employee"); // Modificarea numelui stării
+  const navigate = useNavigate();
+
+  const handleChange = (event: SelectChangeEvent) => {
+    setAccountType(event.target.value as string); // Modificarea numelui funcției și a stării
+  };
+
+  const convertAccountType = () => {
+    return accountType.toLowerCase() === "employer";
+  };
+
+  const userMutation = useMutation(api.users.addUser);
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+
+    const username = data.get("firstName") as string;
+    const password = data.get("password") as string;
+    const confirmPassword = data.get("confirmPassword") as string;
+
+    if (password === confirmPassword && username !== "") {
+      try {
+        // Dacă parolele coincid, poți face apelul către baza de date pentru a salva datele
+        const result = await userMutation({
+          username: username,
+          password: password,
+          accountType: convertAccountType(),
+          // Alte date pe care vrei să le salvezi în baza de date
+        });
+        if (result !== "Utilizatorul există deja.") {
+          navigate("/");
+        } else console.log({ result });
+      } catch (error) {
+        console.error("Eroare la salvarea în baza de date:", error);
+      }
+    } else if (username === "") {
+      console.log("Username invalid.");
+    } else {
+      // Dacă parolele nu coincid, afișează un mesaj în consolă sau altundeva
+      console.log("Parola și Confirm Password nu coincid. Te rog să verifici.");
+      // Sau poți seta un mesaj în starea componentei pentru a-l afișa în interfața utilizatorului
+    }
   };
 
   return (
@@ -71,24 +97,24 @@ export default function SignUp() {
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12}>
                 <TextField
                   autoComplete="given-name"
                   name="firstName"
                   required
                   fullWidth
                   id="firstName"
-                  label="First Name"
+                  label="Username"
                   autoFocus
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
+                  id="password"
+                  label="Password"
+                  name="password"
                   autoComplete="family-name"
                 />
               </Grid>
@@ -96,30 +122,32 @@ export default function SignUp() {
                 <TextField
                   required
                   fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
+                  name="confirmPassword"
+                  label="Confirm password"
+                  type="text"
+                  id="confirmPassword"
                   autoComplete="new-password"
                 />
               </Grid>
               <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox value="allowExtraEmails" color="primary" />
-                  }
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
+                <Box sx={{ minWidth: 120 }}>
+                  <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">
+                      Account type
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      label="Account type"
+                      value={accountType} // Modificarea valorii folosite pentru select
+                      onChange={handleChange}
+                    >
+                      <MenuItem value="Employee">Employee</MenuItem>{" "}
+                      {/* Modificarea valorilor din MenuItem */}
+                      <MenuItem value="Employer">Employer</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Box>
               </Grid>
             </Grid>
             <Button

@@ -1,0 +1,22 @@
+.courses-container {
+    display: flex;
+    justify-content: center;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    margin: 0 10px;
+    /* Spatiu între coloane */
+}
+
+.tabel {
+    border-radius: 10%;
+    width: 500px;
+    /* Poate fi modificată dimensiunea imaginilor */
+    height: auto;
+    margin-bottom: 10px;
+    /* Spatiu între imagini */
+    margin-top: 90px;
+    /* Spatiu între imagini */
+}
