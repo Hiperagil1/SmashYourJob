@@ -1,11 +1,14 @@
 import React from "react";
 import ResponsiveAppBar from "./AppBarAngajat";
-import { Box, Button, Container, TextField, Typography } from "@mui/material";
+import { Box, Container, TextField, Typography } from "@mui/material";
+import Button from "@mui/joy/Button";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { useAuth } from "../components/AuthProvider";
 import ShowCV from "./ShowCV";
 import { cvExists } from "../../convex/cv";
+import Footnote from "../components/FootNote";
+import { createTheme } from "@mui/material/styles";
 
 function CV() {
   const { username } = useAuth();
@@ -39,72 +42,96 @@ function CV() {
 
   return (
     <div>
-      <ResponsiveAppBar />
-
+      <div style={{ position: "sticky", top: 0, zIndex: 9999 }}>
+        <ResponsiveAppBar />
+      </div>{" "}
       {cvExists && <ShowCV />}
       {!cvExists && (
         <div>
-          <div style={{ marginTop: "20px" }}>
+          <div style={{ margin: "75px" }}>
             <h1>Create your CV</h1>
-            <h2>Contact</h2>
             <Box component="form" onSubmit={handleSubmit}>
               <TextField
                 id="outlined-basic"
                 label="First Name"
                 name="firstName"
-                variant="outlined"
+                variant="standard"
+                InputLabelProps={{ style: { color: "#FFFFFF" } }}
+                InputProps={{ style: { color: "#FFFFFF" } }}
               />
+              <br />
               <TextField
+                style={{ marginTop: "20px" }}
                 id="outlined-basic"
                 label="Last Name"
-                variant="outlined"
+                variant="standard"
                 name="lastName"
+                InputLabelProps={{ style: { color: "#FFFFFF" } }}
+                InputProps={{ style: { color: "#FFFFFF" } }}
               />
               <br />
               <TextField
                 id="phone"
                 label="Phone"
-                variant="outlined"
+                variant="standard"
                 name="phone"
                 style={{ marginTop: "20px" }}
+                InputLabelProps={{ style: { color: "#FFFFFF" } }}
+                InputProps={{ style: { color: "#FFFFFF" } }}
               />
               <br />
               <TextField
                 id="outlined-basic"
                 label="Email"
-                variant="outlined"
+                variant="standard"
                 name="email"
                 style={{ marginTop: "20px" }}
+                InputLabelProps={{ style: { color: "#FFFFFF" } }}
+                InputProps={{ style: { color: "#FFFFFF" } }}
               />
+
               <br />
               <TextField
                 id="outlined-basic"
                 label="Adress"
-                variant="outlined"
+                variant="standard"
                 name="adress"
                 style={{ marginTop: "20px" }}
+                InputLabelProps={{ style: { color: "#FFFFFF" } }}
+                InputProps={{ style: { color: "#FFFFFF" } }}
               />
               <br />
               <div style={{ maxWidth: "400px", marginTop: "20px" }}>
                 <TextField
                   id="outlined-basic"
                   label="About me"
-                  variant="outlined"
+                  variant="standard"
                   name="aboutMe"
                   multiline
-                  minRows={3}
-                  maxRows={6}
+                  minRows={1}
+                  maxRows={1}
                   fullWidth
                   inputProps={{ style: { width: "100%" } }}
+                  InputLabelProps={{ style: { color: "#FFFFFF" } }}
+                  InputProps={{ style: { color: "#FFFFFF" } }}
                 />
               </div>
-              <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
+              <Button
+                style={{ color: "#5C8374" }}
+                size="lg"
+                type="submit"
+                variant="soft"
+                sx={{ mt: 3, mb: 2 }}
+              >
                 Create CV
               </Button>
             </Box>
           </div>
         </div>
       )}
+      <div className="blue">
+        <Footnote />
+      </div>{" "}
     </div>
   );
 }

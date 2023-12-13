@@ -16,13 +16,16 @@ function AngajatFirstPage() {
     <div>
       <ResponsiveAppBar />
       {!jobExists && (
-        <Button
-          onClick={() => {
-            navigate("/details");
-          }}
-        >
-          Create a Job offer
-        </Button>
+        <center>
+          <Button
+            style={{ marginTop: "200px" }}
+            onClick={() => {
+              navigate("/details");
+            }}
+          >
+            Create a Job offer
+          </Button>
+        </center>
       )}
     </div>
   );

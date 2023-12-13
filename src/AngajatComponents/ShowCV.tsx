@@ -2,6 +2,7 @@ import React from "react";
 import { useAuth } from "../components/AuthProvider";
 import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
+import "./CSSAngajat/ShowCV.css";
 
 function ShowCV() {
   const { username } = useAuth();
@@ -17,13 +18,34 @@ function ShowCV() {
     const aboutMe = getCV[0].aboutMe;
 
     return (
-      <div>
-        <h2>{firstName}</h2>
-        <p>Last Name: {lastName}</p>
-        <p>Phone: {phone}</p>
-        <p>Email: {email}</p>
-        <p>Address: {address}</p>
-        <p>About Me: {aboutMe}</p>
+      <div className="cv">
+        <div style={{}}>
+          <h1>Curriculum vitae</h1>
+        </div>
+        <div>
+          <h2>First Name</h2>
+          <h3>{firstName}</h3>
+        </div>
+        <div>
+          <h2>Last Name</h2>
+          <h3>{lastName}</h3>
+        </div>
+        <div>
+          <h2>Phone</h2>
+          <h3>{phone}</h3>
+        </div>
+        <div>
+          <h2>Email</h2>
+          <h3>{email}</h3>
+        </div>
+        <div>
+          <h2>Adress</h2>
+          <h3>{address}</h3>
+        </div>
+        <div>
+          <h2>About Me</h2>
+          <h3>{aboutMe}</h3>
+        </div>
       </div>
     );
   } else {

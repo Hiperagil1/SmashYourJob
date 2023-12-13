@@ -6,6 +6,7 @@ import { useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { v } from "convex/values";
 import "./CSSAngajat/Courses.css";
+import Footnote from "../components/FootNote";
 
 function Courses() {
   const { username } = useAuth();
@@ -39,8 +40,10 @@ function Courses() {
 
   return (
     <div>
-      <ResponsiveAppBar />
-      <center>
+      <div style={{ position: "sticky", top: 0, zIndex: 9999 }}>
+        <ResponsiveAppBar />
+      </div>
+      <center style={{ marginBottom: "150px" }}>
         <div className="courses-container">
           <div className="column">
             <a href="https://www.ateliereleilbah.ro/cursuri/curs-bucatar-scoala-bucatari/">
@@ -60,6 +63,9 @@ function Courses() {
           </div>
         </div>
       </center>
+      <div className="blue">
+        <Footnote />
+      </div>{" "}
     </div>
   );
 }

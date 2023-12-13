@@ -1,22 +1,27 @@
 import React, { useState } from "react";
 import Table from "@mui/joy/Table";
 import Sheet from "@mui/joy/Sheet";
-import "./Popup.css";
+import "./CSSAngajat/Popup.css";
 import { useQuery } from "convex/react";
 import { useAuth } from "../components/AuthProvider";
 import { api } from "../../convex/_generated/api";
 import { Button } from "@mui/material";
+import "./CSSAngajat/Matches.css";
 
 export default function InteractiveTable() {
   const [selectedRow, setSelectedRow] = useState<string | null>(null);
   const [showPopup, setShowPopup] = useState(false);
   const [popupContent, setPopupContent] = useState("");
   const [userSelected, setUserSelected] = useState("");
-
   const { username } = useAuth();
 
   const matches = useQuery(api.preMatch.getMatches, { userName: username });
+  const jobs = useQuery(api.jobDetails.getJobListForUserList, {
+    userName: username,
+  });
+  let jobNames: string[] = [];
   let matchedProfiles = [];
+
   if (matches) {
     for (let i = 0; i < matches?.length; i++) {
       if (matches[i].user1 === username) {
@@ -25,6 +30,9 @@ export default function InteractiveTable() {
         matchedProfiles.push(matches[i].user1);
       }
     }
+  }
+  if (jobs) {
+    jobNames = jobs;
   }
 
   const handleRowClick = (name: string) => {
@@ -41,14 +49,15 @@ export default function InteractiveTable() {
   return (
     <div>
       <Sheet variant="outlined">
-        <Table variant="soft" borderAxis="bothBetween">
+        <Table variant="soft" borderAxis="bothBetween" size="lg">
           <thead>
             <tr>
-              <th style={{ width: "40%" }}>Username</th>
+              <th style={{ width: "30%" }}>Username</th>
+              <th style={{ width: "30%" }}>Job Name</th>
             </tr>
           </thead>
           <tbody>
-            {matchedProfiles.map((row) => (
+            {matchedProfiles.map((row, index) => (
               <tr
                 key={row}
                 onClick={() => handleRowClick(row)}
@@ -59,6 +68,7 @@ export default function InteractiveTable() {
                 }}
               >
                 <th scope="row">{row}</th>
+                <td>{jobNames[index]}</td>
               </tr>
             ))}
           </tbody>

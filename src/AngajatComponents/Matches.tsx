@@ -5,6 +5,7 @@ import { useQuery } from "convex/react";
 import { useAuth } from "../components/AuthProvider";
 import { api } from "../../convex/_generated/api";
 import InteractiveTable from "./MatcheTable";
+import Footnote from "../components/FootNote";
 
 function Matches() {
   const { username } = useAuth();
@@ -23,8 +24,23 @@ function Matches() {
 
   return (
     <div>
-      <ResponsiveAppBar />
-      <InteractiveTable />
+      <div style={{ position: "sticky", top: 0, zIndex: 9999 }}>
+        <ResponsiveAppBar />
+      </div>
+      <div
+        style={{
+          marginLeft: "200px",
+          marginRight: "200px",
+          paddingBottom: "300px",
+          paddingTop: "50px",
+        }}
+      >
+        <InteractiveTable />
+      </div>
+
+      <div className="blue">
+        <Footnote />
+      </div>
     </div>
   );
 }

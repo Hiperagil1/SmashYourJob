@@ -1,0 +1,9 @@
+.cv {
+    color: white;
+    padding: 20px;
+    margin: 20px;
+    margin-right: 200px;
+    margin-left: 200px;
+    background-color: rgba(15, 33, 33, 0.5);
+    border-radius: 70px;
+}

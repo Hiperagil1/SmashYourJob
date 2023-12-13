@@ -1,28 +1,44 @@
 .jos {
-    background: linear-gradient(to bottom, transparent, rgb(166, 187, 141, 0.8), rgb(60, 98, 85, 2)),
-        url('');
-    padding-bottom: 100px;
-    padding-top: 200px;
+    padding-bottom: 50px;
+    padding-top: 20px;
     width: 100%;
-    position: absolute;
-    bottom: 0;
-    height: 400px;
+    margin-top: auto;
+    /* Înlocuiește bottom: 0; */
 }
 
 
 .coloane {
-    padding-top: 20px;
+    padding-top: 10px;
 }
 
 .legal {
     height: 70px;
     width: 50px;
-    padding-top: 20px;
-    padding-bottom: 20;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 
 .padd100 {
-
     top: 100px;
+}
+
+.row {
+    /* Stilurile pentru rândurile din containerul de coloane */
+    display: flex;
+    justify-content: space-between;
+    max-width: 300px;
+    /* Ajustează în funcție de necesități */
+    margin: 0 auto;
+    /* Centrare */
+}
+
+.col {
+    /* Stilurile pentru fiecare coloană */
+    text-align: center;
+}
+
+.col img {
+    filter: invert(100%);
+    height: auto;
 }
