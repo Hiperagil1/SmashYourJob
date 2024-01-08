@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import ResponsiveAppBar from "../AngajatorComponents/AppBarAngajator";
-import { Direction, Fade, Slide } from "@mui/material";
+import { Box, Direction, Fade, Slide } from "@mui/material";
 import { useState } from "react";
-import Button from "@mui/material/Button";
+import Button from "@mui/joy/Button";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { useAuth } from "../components/AuthProvider";
+import Footnote from "../components/FootNote";
 
 function getRandomNumber(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -65,16 +66,43 @@ function jobs() {
   };
   return (
     <div>
-      <ResponsiveAppBar />
+      <div style={{ position: "sticky", top: 0, zIndex: 9999 }}>
+        <ResponsiveAppBar />
+      </div>
 
-      <div style={{ marginTop: "250px" }}>
+      <div
+        style={{
+          marginTop: "250px",
+          paddingBottom: "250px",
+          paddingTop: "100px",
+        }}
+      >
         <Slide direction={slideDirection} in={isVisible}>
           <p style={{ textAlign: "center" }}>{job}</p>
         </Slide>
         <div style={{ display: "flex", justifyContent: "center" }}>
-          <Button onClick={handlePass}>Pass</Button>
-          <Button onClick={handleSmash}>Smash</Button>
+          <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
+            <Button
+              style={{ color: "#5C8374" }}
+              size="lg"
+              variant="soft"
+              onClick={handlePass}
+            >
+              Pass
+            </Button>
+            <Button
+              style={{ color: "#5C8374" }}
+              size="lg"
+              variant="soft"
+              onClick={handleSmash}
+            >
+              Smash
+            </Button>
+          </Box>
         </div>
+      </div>
+      <div className="blue">
+        <Footnote />
       </div>
     </div>
   );
